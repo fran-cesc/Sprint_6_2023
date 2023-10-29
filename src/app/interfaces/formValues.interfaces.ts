@@ -4,3 +4,7 @@ export interface formValues {
   value: number
 }
 
+export interface panelFormValues {
+  id: string,
+  num: number
+}

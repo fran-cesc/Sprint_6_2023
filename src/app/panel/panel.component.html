@@ -1,0 +1,21 @@
+<form [formGroup]="panelForm" autocomplete="off" (ngSubmit)="emitTotalWeb()">
+
+  <div class="d-flex flex-row align-items-center justify-content-end">
+    <i type="button" class="fa-solid fa-circle-info fa-sm" data-bs-toggle="modal" data-bs-target="#pagesModal"></i>
+    <p class="m-2">Nombre de pàgines</p>
+    <modal></modal>
+    <button class="btn border-0 btn-sm" id="page-" (click)="counter('page-')">-</button>
+    <input type="text" class="col-2" id="page" [value]="pageValue" formControlName="numPages">
+    <button class="btn border-0 btn-sm" id="page+" (click)="counter('page+')">+</button>
+  </div>
+
+  <div class="d-flex flex-row align-items-center justify-content-end">
+    <i  type="button" class="fa-solid fa-circle-info fa-sm" data-bs-toggle="modal" data-bs-target="#languagesModal"></i>
+    <p class="m-2">Nombre de llenguatges</p>
+    <button class="btn border-0 btn-sm" id="language-" (click)="counter('language-')">-</button>
+    <input type="text" class="col-2" id="language" [value]="languageValue" formControlName="numLanguages">
+    <button class="btn border-0 btn-sm" id="language+" (click)="counter('language+')">+</button>
+  </div>
+
+</form>
+"

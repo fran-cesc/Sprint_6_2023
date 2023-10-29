@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { formValues } from '../interfaces/formValues.interfaces';
+import { BudgetService } from '../services/budget.service';
 
 @Component({
   selector: 'home',
@@ -8,26 +8,23 @@ import { formValues } from '../interfaces/formValues.interfaces';
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit{
-  public totalBudgetValue: number = 0;
+export class HomeComponent implements OnInit, OnChanges {
+  public total: number = 0;
+  public totalWeb: number = 0;
 
-  public formValues: formValues[] = [
-    {
-      id: 'seo',
-      state: false,
-      value: 300
-    },
-    {
-      id: 'ads',
-      state: false,
-      value: 400
-    },
-    {
-      id: 'web',
-      state: false,
-      value: 500
-    }
-  ];
+  showPanel(){
+    return (this.BudgetService.formValues[2].state) ? true : false;
+  }
+
+  constructor(public BudgetService: BudgetService){}
+  ngOnChanges(changes: SimpleChanges): void {
+    throw new Error('Method not implemented.');
+  }
+
+  ngOnInit(): void {
+    this.budgetForm;
+    this.initializeForm();
+  }
 
   public budgetForm = new FormGroup ({
     seo: new FormControl(false),
@@ -35,24 +32,28 @@ export class HomeComponent implements OnInit{
     web: new FormControl(false),
   });
 
-constructor() {}
-
-ngOnInit(): void {
-  this.formValues.forEach( (object, index) => {
-    // this.budgetForm.get(`checkbox${index+1}`)?.valueChanges.subscribe ( currentState => {
+  initializeForm(){
+    this.BudgetService.formValues.forEach( (object, index) => {
       this.budgetForm.get(object.id)?.valueChanges.subscribe(
         currentState => {
-        object.state = currentState;
-        if (currentState == true){
-          (this.totalBudgetValue += object.value);
-      } else {
-          (this.totalBudgetValue -= object.value);
+          object.state = currentState;
+          if (currentState == true){
+            this.total += object.value;
+            if (object.id == 'web') this.totalWeb = 30;
+          } else {
+            if (object.id == 'web') this.totalWeb = 0;
+            this.total -= object.value;
+          }
+        })
       }
-      console.log(object.state);
-      })
-  }
   )
-}
+  }
+
+  functionTotalWeb(value: number): void{
+    this.totalWeb = value;
+  }
+
+
 
 }
 
